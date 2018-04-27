@@ -26,7 +26,7 @@ private class AtomicVariable[A](initial: A) extends Atomic[A] {
         } catch {
           // In case of a call to retry,
           // We continue with the loop.
-          case RetryException => retryLoop()
+          case RetryException =>
         }
       }
 
@@ -92,7 +92,7 @@ private class VersionedAtomicVariable[A](initial: A) extends Atomic[A] {
         } catch {
           // In case of a call to retry,
           // We continue with the loop.
-          case RetryException => retryLoop()
+          case RetryException =>
         }
       }
 
