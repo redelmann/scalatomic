@@ -57,21 +57,12 @@ private class AtomicVariable[A](initial: A) extends Atomic[A] {
     }
   }
 
-  override def modifyWithVersion[R](body: (A, Version) => UpdateAndResult[A, R]): Result[R] =
-    throw new UnsupportedOperationException("Versioning information not available.")
-
   override def read: A = reference.get()
-
-  override def readVersion: Version =
-    throw new UnsupportedOperationException("Versioning information not available.")
-
-  override def readWithVersion: (A, Version) =
-    throw new UnsupportedOperationException("Versioning information not available.")
 }
 
 
 /** Versioned atomic variable holding a reference to an object of type `A` and its version. */
-private class VersionedAtomicVariable[A](initial: A) extends Atomic[A] {
+private class VersionedAtomicVariable[A](initial: A) extends VersionedAtomic[A] {
 
   /** The atomic reference holding the state. */
   private val reference = new AtomicReference((initial, 0: Version))

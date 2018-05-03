@@ -99,16 +99,16 @@ package object scalatomic {
   /** Creates a new atomic variable.
    *
    * @param initial   The initial value stored.
-   * @param versioned Whether or not to version the state. True by default.
    * @group atomic
    */
-  def newAtomic[A](initial: A, versioned: Boolean = true): Atomic[A] =
-    if (versioned) {
-      new VersionedAtomicVariable(initial)
-    }
-    else {
-      new AtomicVariable(initial)
-    }
+  def newAtomic[A](initial: A): Atomic[A] = new AtomicVariable(initial)
+
+  /** Creates a new atomic variable, with versioning.
+   *
+   * @param initial   The initial value stored.
+   * @group atomic
+   */
+  def newVersionedAtomic[A](initial: A): VersionedAtomic[A] = new VersionedAtomicVariable(initial)
 
   /** Atomically modifies the value stored in the atomic state based its current value.
    *
@@ -137,7 +137,7 @@ package object scalatomic {
    *
    * @group modify
    */
-  def modifyWithVersion[A, R](variable: Atomic[A])
+  def modifyWithVersion[A, R](variable: VersionedAtomic[A])
       (body: (A, Version) => UpdateAndResult[A, R]): Result[R] =
     variable.modifyWithVersion(body)
 }
